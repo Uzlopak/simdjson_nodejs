@@ -14,10 +14,9 @@
       ],
       "xcode_settings": {
         "OTHER_CFLAGS": ["-std=c++17"],
-        "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
+        "GCC_ENABLE_CPP_EXCEPTIONS": "YES"
         'CLANG_CXX_LIBRARY': 'libc++',
         'OTHER_LDFLAGS': [],
-        'GCC_ENABLE_CPP_EXCEPTIONS': 'NO',
         'MACOSX_DEPLOYMENT_TARGET': '10.11'
       },
       "msvs_settings": {

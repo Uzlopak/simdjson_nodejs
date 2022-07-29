@@ -6,6 +6,7 @@ on:
 
 jobs:
   alpine:
+    name: Alpine
     runs-on: ubuntu-latest
     container:
       image: node:${{ matrix.node }}-alpine
@@ -30,7 +31,7 @@ jobs:
         run: npm test
 
   mac-os:
-    name: Test
+    name: MacOS
     runs-on: macos-latest
     permissions:
       contents: read
@@ -55,7 +56,7 @@ jobs:
         run: npm test
 
   ubuntu:
-    name: Test
+    name: Ubuntu
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -81,6 +82,7 @@ jobs:
 
 
   windows:
+    name: Windows
     runs-on: windows-2019
 
     strategy:

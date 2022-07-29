@@ -21,7 +21,7 @@
       },
       "msvs_settings": {
         "VCCLCompilerTool": {
-          "AdditionalOptions": ["/std:c++17"]
+          "AdditionalOptions": ["/std:c++17", "/EHsc"]
         }
       },
       "include_dirs": ["<!@(node -p \"require('node-addon-api').include\")"],

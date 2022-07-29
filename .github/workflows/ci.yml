@@ -1,19 +1,42 @@
 name: tests
 on:
-  - push
-  - pull_request
-  - workflow_dispatch
+  push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-  test:
+  alpine:
+    runs-on: ubuntu-latest
+    container:
+      image: node:${{ matrix.node }}-alpine
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - 14
+          - 16
+          - 18
+
+    steps:
+      - name: Install Alpine build tools
+        run: apk add --no-cache python3 make git gcc g++
+
+      - uses: actions/checkout@v3
+
+      - name: Install packages
+        run: npm install --unsafe-perm
+
+      - name: Run tests
+        run: npm test
+
+  mac-os:
     name: Test
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
     permissions:
       contents: read
     strategy:
       matrix:
         node-version: [14, 16, 18]
-        os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
       - name: Check out repo
         uses: actions/checkout@v3
@@ -26,7 +49,63 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: npm i
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  ubuntu:
+    name: Test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        node-version: [14, 16, 18]
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+
+  windows:
+    runs-on: windows-2019
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - 14
+          - 16
+          - 18
+
+        architecture:
+          - x64
+          - x86
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.architecture }}
+
+      - name: Install packages
+        run: npm install
 
       - name: Run tests
         run: npm test
